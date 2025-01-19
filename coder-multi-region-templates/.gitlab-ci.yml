@@ -1,0 +1,41 @@
+tages:
+  - deploy
+before_script:
+  - apk add --no-cache curl git terraform
+  - curl -L https://coder.com/install.sh | sh -s -- --version "2.18.0"
+  - coder version
+  - apk add yq
+deploy_dev_us_west_2:
+  stage: deploy
+  image: $CI_TEMPLATE_REGISTRY_HOST/gitlab-org/terraform-images/releases/1.4:v1.0.0
+  variables:
+    REGION: us-west-2
+    ENVIRONMENT: dev
+  script:
+    - terraform init
+    - |
+      echo "Deploying containers to dev environment in region $REGION"
+      # Ensure the containers are parsed as JSON
+      containers=$(yq eval '.containers' inputs.yml -o=json)
+      # Loop through each container defined in inputs.yml
+      for container in $(echo "$containers" | jq -r '.[].name'); do
+        container_name="$container"
+        # Extract the display name and description for each container
+        display_name=$(yq eval ".containers[] | select(.name == \"$container\") | .display-name" inputs.yml)
+        description=$(yq eval ".containers[] | select(.name == \"$container\") | .description" inputs.yml)
+        
+        for template in $(ls templates); do \
+        if [ -d templates/${template} ]; then \
+          echo $template; \
+          cp -rp $CI_PROJECT_DIR/modules ${template}
+          coder templates push --yes ${template} --directory templates/${template} --name=$(git rev-parse --short HEAD) \
+        # Edit the display name and description in Coder UI for the template
+        coder templates edit --yes --display-name "$display_name" "$container"
+        coder templates edit --yes --description "$description" "$container"
+
+        echo "Deployed template for $container"
+          
+        fi; \
+        done;
+      done;
+
