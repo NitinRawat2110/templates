@@ -1,0 +1,40 @@
+containers:
+  - name: "cdd-container"
+    display-name: "CDD Build Workspace"
+    description: "git and coder-server, with a few vscode extensions that make cdd development easier"
+    image: "229688178.dkr.ecr.us-west-2.amazonaws.com/devops:coder-base-ubuntu"
+
+  - name: "golang-1-20-container"
+    display-name: "Golang Container-based workspace"
+    description: "Golang in a container workspace. Good for tools development (cddctl, escrow tool, etc.)"
+    image: "229688178.dkr.ecr.us-west-2.amazonaws.com/devops:golang-ubuntu-22.04"
+
+  - name: "scmdb-node-18-container-ec2"
+    display-name: "[EC2+ECS] ScmDb Node 18 Container-based workspace"
+    description: "git and coder-server, with a few vscode extensions that make cdd development easier"
+    image: "229688178.dkr.ecr.us-west-2.amazonaws.com/corpit-scmdb:mariadb-docker-template-latest"
+
+  - name: "scmdb-node-18-container"
+    display-name: "ScmDb Node 18 Container-based workspace"
+    description: "Node.js 18 plus optional containers for mariadb, mongodb, and localstack useful for testing"
+    image: "229688178.dkr.ecr.us-west-2.amazonaws.com/devops:node-18-buster"
+
+  - name: "scmdb-python-3-8-container-ec2"
+    display-name: "[EC2+ECS] ScmDb Python 3.8 Container-based workspace"
+    description: "Python 3.8 plus optional containers for mariadb, mongodb, and localstack useful for testing, good for scmdb_py"
+    image: "229688178.dkr.ecr.us-west-2.amazonaws.com/devops:scmdb-py-ubuntu-22.04"
+
+  - name: "scmdb-python-3-8-container"
+    display-name: "ScmDb Python 3.8 Container-based workspace"
+    description: "Python 3.8 plus optional containers for mariadb, mongodb, and localstack useful for testing, good for scmdb_py"
+    image: "229688178.dkr.ecr.us-west-2.amazonaws.com/devops:scmdb-py-ubuntu-22.04"
+
+  - name: "simple-container"
+    display-name: "Simple container-based workspace"
+    description: "git and coder-server...and thats it"
+    image: "229688178.dkr.ecr.us-west-2.amazonaws.com/devops:coder-base-ubuntu"
+
+  - name: "x64-next-container"
+    display-name: "x64 NeXT toolchain container-based workspace"
+    description: "x64 next based workspace. Good for application development and testing"
+    image: "229688178.dkr.ecr.us-west-2.amazonaws.com/devops:x64-next"
